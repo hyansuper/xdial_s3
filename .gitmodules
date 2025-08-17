@@ -1,0 +1,12 @@
+[submodule "components/my_esp_util"]
+	path = components/my_esp_util
+	url = https://github.com/hyansuper/my_esp_util.git
+[submodule "components/xiaozhi_chat"]
+	path = components/xiaozhi_chat
+	url = https://github.com/hyansuper/xiaozhi_chat.git
+[submodule "components/lvgl"]
+	path = components/lvgl
+	url = https://github.com/lvgl/lvgl.git
+[submodule "components/esp_fetch_online_data"]
+	path = components/esp_fetch_online_data
+	url = https://github.com/hyansuper/esp_fetch_online_data.git
