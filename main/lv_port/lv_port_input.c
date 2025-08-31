@@ -1,7 +1,8 @@
 #include "lv_port.h"
 #include "lv_port_config.h"
-
+#include "string.h"
 #include "driver/gpio.h"
+#include "esp_log.h"
 
 // value of left/right button and infrared
 static volatile int lbtn;
@@ -92,9 +93,24 @@ void lv_port_init_indev() {
 
 
 #define DEFAULT_BUTTON_MARGIN 5
-const lv_point_t* get_default_button_points() {
-    const static lv_point_t points_array[] = {{DEFAULT_BUTTON_MARGIN, DEFAULT_BUTTON_MARGIN}, {DISPLAY_WIDTH-DEFAULT_BUTTON_MARGIN, DEFAULT_BUTTON_MARGIN}};
-    return points_array;
+static const lv_point_t default_button_points[] = {{DEFAULT_BUTTON_MARGIN, DEFAULT_BUTTON_MARGIN}, {DISPLAY_WIDTH-DEFAULT_BUTTON_MARGIN, DEFAULT_BUTTON_MARGIN}};
+static lv_point_t button_points[2];
+
+void button_indev_set_default_button_points() {
+    memcpy(button_points, default_button_points, sizeof(button_points));
+    lv_indev_set_button_points(button_indev, button_points);
+}
+
+void button_indev_set_left_button_point(int x, int y) {
+    button_points[0].x = x;
+    button_points[0].y = y;
+    lv_indev_set_button_points(button_indev, button_points);
+}
+
+void button_indev_set_right_button_point(int x, int y) {
+    button_points[1].x = x;
+    button_points[1].y = y;
+    lv_indev_set_button_points(button_indev, button_points);
 }
 
 lv_obj_t* get_default_left_button() {
@@ -113,7 +129,7 @@ static lv_obj_t* create_default_lv_btn(int x, int y) {
 }
 
 void lv_port_init_default_button() {
-    lv_indev_set_button_points(button_indev, get_default_button_points());
+    button_indev_set_default_button_points();
     lv_lbtn = create_default_lv_btn(0, 0);
     lv_rbtn = create_default_lv_btn(DISPLAY_WIDTH-DEFAULT_BUTTON_MARGIN*2, 0);
 }

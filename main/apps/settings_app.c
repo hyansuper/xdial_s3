@@ -1,5 +1,4 @@
 #include "apps.h"
-#include "string.h"
 #include "wifi_manager.h"
 
 typedef struct {

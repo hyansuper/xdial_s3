@@ -3,8 +3,9 @@
 #include "board.h"
 #include "lv_port.h"
 #include "apps.h"
-#include "observers.h"
+#include "lv_observers.h"
 #include "server.h"
+#include "audio_manager.h"
 #include "periodic_data_update.h"
 #include "wifi_manager.h"
 #include "sntp_srv.h"
@@ -66,6 +67,7 @@ void app_main(void) {
 	
 	sntp_srv_init("UTC-8", datetime_minutely_update);
 	server_start();
+	audio_mgr_init();
 
 	WITH_LV_LOCK({
 		bind_observers();

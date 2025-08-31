@@ -1,3 +1,11 @@
+/*
+
+这个例子演示如何显示获取的网络数据。
+网络数据的获取见 main/periodic_data_update/
+数据与 UI 的绑定使用了 lvgl 的 observer 
+
+*/
+
 #include "apps.h"
 #include "crypto_coin.h"
 

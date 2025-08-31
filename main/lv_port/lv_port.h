@@ -28,11 +28,12 @@ static inline void lv_port() {
 	lv_port_run_task();
 }
 
-
+void button_indev_set_left_button_point(int x, int y);
+void button_indev_set_right_button_point(int x, int y);
+void button_indev_set_default_button_points();
 
 lv_indev_t* get_button_indev();
 lv_indev_t* get_encoder_indev();
-const lv_point_t* get_default_button_points();
 lv_obj_t* get_default_left_button();
 lv_obj_t* get_default_right_button();
 

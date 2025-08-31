@@ -23,8 +23,8 @@ esp_err_t microphone_enable(bool en);
 int speaker_get_volume();
 int speaker_get_sample_rate();
 int microphone_get_sample_rate();
-esp_codec_dev_handle_t get_speaker_codec_dev();
-esp_codec_dev_handle_t get_microphone_codec_dev();
+esp_codec_dev_handle_t speaker_get_codec_dev();
+esp_codec_dev_handle_t microphone_get_codec_dev();
 
 void input_init_gpio();
 

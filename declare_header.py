@@ -10,8 +10,7 @@ def find_matching_files(folder: Path, pattern: str, recursive: bool):
 
 def write_c_header_file(output_path: Path, filenames: list[str], include_files: str = None, declare: str = "*"):
     with open(output_path, 'w', encoding='utf-8') as f:
-        f.write("#pragma once\n")
-        f.write("// Auto-generated list of files (filenames without extensions):\n\n")
+        f.write("#pragma once\n\n")
 
         # Optional include
         if include_files:

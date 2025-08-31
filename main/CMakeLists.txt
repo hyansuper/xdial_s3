@@ -3,7 +3,8 @@ file(GLOB_RECURSE source_files ${CMAKE_SOURCE_DIR}
                             "board/*.c"
                             "lv_port/*.c"
                             "server/*.c"
-                            "observers/*.c"
+                            "lv_observers/*.c"
+                            "audio_manager/*.c"
                             "periodic_data_update/*.c"
                             "apps/apps.c"
                             "apps/assets/*.c"
@@ -13,6 +14,7 @@ file(GLOB_RECURSE source_files ${CMAKE_SOURCE_DIR}
                             "apps/home_app.c"
                             "apps/clock_app.c"
                             "apps/settings_app.c"
+                            "apps/player_app.c"
                             "apps/crypto_app.c"
                             "apps/example_app.c"
                         )
@@ -23,8 +25,8 @@ file(GLOB_RECURSE source_files ${CMAKE_SOURCE_DIR}
 
 idf_component_register(
                         SRCS ${source_files}
-                        PRIV_INCLUDE_DIRS "server" "board" "lv_port" "apps" "periodic_data_update" "observers"
-                        EMBED_FILES "server/index.html"
+                        PRIV_INCLUDE_DIRS "server" "board" "lv_port" "apps" "periodic_data_update" "lv_observers" "audio_manager"
+                        EMBED_FILES "server/index.html" "audio_manager/ff-16b-1c-44100hz.mp3"
                     )
 
 

@@ -1,5 +1,8 @@
 #include "apps.h"
 
+static const lv_app_t* app_list[] = {&clock_app, &settings_app, &player_app, &crypto_app, &example_app, 
+                                    &example_app, &example_app, &example_app, &example_app};
+
 typedef struct {
     lv_obj_t* lbl_name;
     lv_group_t* grp;
@@ -7,7 +10,6 @@ typedef struct {
 } screen_data_t;
 
 static int app_id;
-static const lv_app_t* app_list[] = {&clock_app, &settings_app, &crypto_app, &example_app, &example_app, &example_app, &example_app, &example_app, &example_app};
 
 static void grp_focus_cb(lv_group_t* grp) {
     lv_obj_t* icon = lv_group_get_focused(grp);
