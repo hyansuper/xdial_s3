@@ -11,6 +11,7 @@ file(GLOB_RECURSE source_files ${CMAKE_SOURCE_DIR}
 
                         #   apps 
 
+                            "apps/ai_chat_app.c"
                             "apps/home_app.c"
                             "apps/clock_app.c"
                             "apps/settings_app.c"

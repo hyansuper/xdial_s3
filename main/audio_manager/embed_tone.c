@@ -10,6 +10,7 @@ embed_item_info_t embed_tone_info[] = {
     },
 };
 
+// 目前 esp_gmf 的 flash_io element 用字符串最后一个斜杆后的 0_  1_  2_ 做引索，en...
 const char *embed_tone_url[] = {
     "embed://tone/0_ff_16b_1c_44100hz.mp3",
 };

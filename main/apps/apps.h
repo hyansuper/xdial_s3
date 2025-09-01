@@ -12,7 +12,7 @@
 #include "string.h"
 
 // declare all apps
-extern lv_app_t home_app, clock_app, settings_app, crypto_app, player_app, example_app;
+extern lv_app_t home_app, clock_app, settings_app, crypto_app, player_app, ai_chat_app, example_app;
 
 void back_to_home_app(lv_event_t * e);
 

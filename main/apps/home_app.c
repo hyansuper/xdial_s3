@@ -1,6 +1,6 @@
 #include "apps.h"
 
-static const lv_app_t* app_list[] = {&clock_app, &settings_app, &player_app, &crypto_app, &example_app, 
+static const lv_app_t* app_list[] = {&clock_app, &settings_app, &player_app, &crypto_app, &ai_chat_app, 
                                     &example_app, &example_app, &example_app, &example_app};
 
 typedef struct {

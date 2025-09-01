@@ -7,3 +7,4 @@ LV_IMAGE_DECLARE(tools_icon_40x40);
 LV_IMAGE_DECLARE(plus_icon_40x40);
 LV_IMAGE_DECLARE(bitcoin_icon_40x40);
 LV_IMAGE_DECLARE(play_icon_40x40);
+LV_IMAGE_DECLARE(smiley_icon_40x40);
