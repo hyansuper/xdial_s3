@@ -6,6 +6,7 @@ file(GLOB_RECURSE source_files ${CMAKE_SOURCE_DIR}
                             "lv_observers/*.c"
                             "audio_manager/*.c"
                             "periodic_data_update/*.c"
+                            "ai_chat/*.c"
                             "apps/apps.c"
                             "apps/assets/*.c"
 
@@ -26,10 +27,13 @@ file(GLOB_RECURSE source_files ${CMAKE_SOURCE_DIR}
 
 idf_component_register(
                         SRCS ${source_files}
-                        PRIV_INCLUDE_DIRS "server" "board" "lv_port" "apps" "periodic_data_update" "lv_observers" "audio_manager"
-                        EMBED_FILES "server/index.html" "audio_manager/ff-16b-1c-44100hz.mp3"
+                        PRIV_INCLUDE_DIRS "server" "board" "lv_port" "apps" "periodic_data_update" "lv_observers" 
+                                            "audio_manager" "ai_chat"
+                        EMBED_FILES "server/index.html"
                     )
 
 
+
+spiffs_create_partition_image(spiffs ./spiffs_data FLASH_IN_PROJECT)
 
 add_compile_definitions(APP_VER="${PROJECT_VER}")

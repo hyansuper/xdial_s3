@@ -19,8 +19,13 @@
 #define SPI_CB_ATTR
 #endif
 
+#if LVGL_TASK_STACK_IN_SPIRAM
+#define TASK_STACK_ATTR EXT_RAM_NOINIT_ATTR 
+#else
+#define TASK_STACK_ATTR 
+#endif
+TASK_STACK_ATTR static StackType_t lvgl_task_stack[LVGL_TASK_STACK];
 static StaticTask_t lvgl_task_buffer;
-static StackType_t lvgl_task_stack[LVGL_TASK_STACK];
 
 #if LVGL_USE_DOUBLE_BUFFER
 BUF_ATTR static lv_color_t buf[2][LVGL_DISPLAY_BUFFER_PIXELS];

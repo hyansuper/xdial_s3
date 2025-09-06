@@ -1,5 +1,6 @@
 #include "esp_log.h"
 #include "esp_event.h"
+#include "esp_spiffs.h"
 #include "board.h"
 #include "lv_port.h"
 #include "apps.h"
@@ -8,7 +9,19 @@
 #include "audio_manager.h"
 #include "periodic_data_update.h"
 #include "wifi_manager.h"
+#include "ai_chat.h"
+#include "kv.h"
 #include "sntp_srv.h"
+
+static esp_err_t init_spiffs() {
+	const esp_vfs_spiffs_conf_t spiffs_conf = {
+        .base_path = "/spiffs",
+        .partition_label = "spiffs",
+        .max_files = 5,
+        .format_if_mount_failed = false
+    };
+    return esp_vfs_spiffs_register(&spiffs_conf);
+}
 
 static void datetime_minutely_update(struct tm* dt) {
 	WITH_LV_LOCK({ lv_subject_notify(&datetime_sub); });
@@ -64,17 +77,20 @@ void app_main(void) {
 		goto end;
     
     }
-	
+
+    ESP_ERROR_CHECK(init_spiffs());
 	sntp_srv_init("UTC-8", datetime_minutely_update);
 	server_start();
-	audio_mgr_init();
+	ESP_ERROR_CHECK(audio_mgr_init());
+	vTaskDelay(pdMS_TO_TICKS(1000));
+	ESP_ERROR_CHECK(kv_init());
+	ai_chat_init();
 
 	WITH_LV_LOCK({
 		bind_observers();
 		lv_app_init();
 		lv_app_open(&home_app);
 	});
-	
 end:
     vTaskDelete(NULL);
 }

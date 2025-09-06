@@ -30,33 +30,28 @@ esp_gmf_err_t audio_mgr_deinit() {
 }
 
 
-esp_gmf_err_t audio_mgr_new_playback_pipeline(const char* in_name, const char* el_name, int num_of_el_name, esp_gmf_pipeline_handle_t* pipeline) {
+esp_gmf_err_t audio_mgr_new_playback_pipeline(const char* in_name, const char* el_name[], int num_of_el_name, esp_gmf_pipeline_handle_t* pipeline) {
 	esp_gmf_err_t err = esp_gmf_pool_new_pipeline(pool, in_name, el_name, num_of_el_name, "io_codec_dev", pipeline);
 	if(err) return err;
     esp_gmf_io_codec_dev_set_dev(ESP_GMF_PIPELINE_GET_OUT_INSTANCE((*pipeline)), speaker_get_codec_dev());
 	return ESP_GMF_ERR_OK;
 }
 
-esp_gmf_err_t audio_mgr_new_recoder_pipeline(const char* el_name[], int num_of_el_name, const char* out_name, esp_gmf_pipeline_handle_t* pipeline) {
+esp_gmf_err_t audio_mgr_new_recorder_pipeline(const char* el_name[], int num_of_el_name, const char* out_name, esp_gmf_pipeline_handle_t* pipeline) {
 	esp_gmf_err_t err = esp_gmf_pool_new_pipeline(pool, "io_codec_dev", el_name, num_of_el_name, out_name, pipeline);
 	if(err) return err;
     esp_gmf_io_codec_dev_set_dev(ESP_GMF_PIPELINE_GET_IN_INSTANCE((*pipeline)), microphone_get_codec_dev());
 	return ESP_GMF_ERR_OK;
 }
 
-esp_gmf_pipeline_handle_t audio_mgr_create_ready_playback_pipeline(const char* in_name, const char* el_name, int num_of_el_name, esp_gmf_task_cfg_t* task_cfg) {
-	esp_gmf_pipeline_handle_t pipe;
-	esp_gmf_err_t err = audio_mgr_new_playback_pipeline(in_name, el_name, num_of_el_name, &pipe);
-	if(err) return NULL;
-
+esp_gmf_err_t audio_mgr_pipeline_bind_task(esp_gmf_pipeline_handle_t pipe, esp_gmf_task_cfg_t* task_cfg) {
 	esp_gmf_task_handle_t work_task = NULL;
 	esp_gmf_task_cfg_t def_task_cfg = DEFAULT_ESP_GMF_TASK_CONFIG();
-	if(task_cfg==NULL) task_cfg = &def_task_cfg;
-    err = esp_gmf_task_init(task_cfg, &work_task);
-    ESP_GMF_RET_ON_NOT_OK(TAG, err, { return NULL; }, "Failed to create pipeline task");
+    esp_gmf_err_t err = esp_gmf_task_init(task_cfg?task_cfg:&def_task_cfg, &work_task);
+    ESP_GMF_RET_ON_NOT_OK(TAG, err, { return err; }, "Failed to create pipeline task");
     esp_gmf_pipeline_bind_task(pipe, work_task);
     esp_gmf_pipeline_loading_jobs(pipe);
-    return pipe;
+    return ESP_GMF_ERR_OK;
 }
 
 esp_gmf_err_t audio_mgr_release_pipeline(esp_gmf_pipeline_handle_t pipe) {

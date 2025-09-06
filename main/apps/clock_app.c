@@ -85,7 +85,7 @@ static void open_screen(lv_obj_t* scr, screen_data_t* data) {
     data->sec_hand = clock_hand_create(scr, 8, 8, 86, lv_palette_main(LV_PALETTE_RED));
 
     lv_subject_add_observer_obj(&datetime_sub, update_time, scr, data);
-    lv_obj_add_event_cb(get_default_left_button(), back_to_home_app, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(get_default_left_button(), back_to_home_app, LV_EVENT_LONG_PRESSED, NULL);
 }
 
 static void close_screen(screen_data_t* data) {

@@ -57,7 +57,7 @@ static void open_screen(lv_obj_t* scr, screen_data_t* data) {
     lv_obj_add_style(data->label, &data->lbl_style, 0);
     lv_label_set_text_fmt(data->label, "click: %d\nrotate: %d", click_count, rotate_count);
 
-    lv_obj_add_event_cb(get_default_left_button(), button_event_handler, LV_EVENT_CLICKED, data);
+    lv_obj_add_event_cb(get_default_left_button(), button_event_handler, LV_EVENT_LONG_PRESSED, data);
     lv_obj_add_event_cb(get_default_right_button(), button_event_handler, LV_EVENT_CLICKED, data);
 
     encoder_indev_set_cb(encoder_cb);

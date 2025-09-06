@@ -54,7 +54,7 @@ static bool update_required() {
 }
 void periodic_data_update() {
 	if(task==NULL && update_required()) {
-		capped_task_config_t conf = CAPPED_TASK_CONFIG_SIMPLE(4096, 2);
+		capped_task_config_t conf = CAPPED_TASK_CONFIG_SPI(4096, 2);
 		capped_task_create(&task, TAG, run_task, NULL, &conf);
 	}
 }

@@ -18,3 +18,4 @@ dependencies:
   espressif/esp_codec_dev: ^1.4.0
   espressif/gmf_ai_audio: ^0.7.1
   espressif/gmf_loader: ^0.7.0
+  espressif/esp_audio_simple_player: ^0.9.4~1

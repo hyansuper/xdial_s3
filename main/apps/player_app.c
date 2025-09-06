@@ -24,16 +24,17 @@ static esp_err_t _pipeline_event(esp_gmf_event_pkt_t *event, screen_data_t* data
 static esp_gmf_pipeline_handle_t create_player_pipeline(void* user_data) {
     esp_gmf_pipeline_handle_t pipe;
     const char *name[] = {"aud_dec", "aud_bit_cvt", "aud_rate_cvt"};
-    pipe = audio_mgr_create_ready_playback_pipeline("io_embed_flash", name, sizeof(name)/sizeof(char*), NULL);
-    esp_gmf_pipeline_set_in_uri(pipe, embed_tone_url[0]);
-    esp_gmf_io_embed_flash_set_context(ESP_GMF_PIPELINE_GET_IN_INSTANCE(pipe), embed_tone_info, 1);
+    const char* file_uri = "file://spiffs/ff-16b-1c-44100hz.mp3";
+    audio_mgr_new_playback_pipeline("io_file", name, sizeof(name)/sizeof(char*), &pipe);
+    esp_gmf_pipeline_set_in_uri(pipe, file_uri);
     esp_gmf_element_handle_t dec_el = NULL;
     esp_gmf_pipeline_get_el_by_name(pipe, "aud_dec", &dec_el);
     esp_gmf_info_sound_t info = {0};
-    esp_gmf_audio_helper_get_audio_type_by_uri(embed_tone_url[0], &info.format_id);
+    esp_gmf_audio_helper_get_audio_type_by_uri(file_uri, &info.format_id);
     esp_gmf_audio_dec_reconfig_by_sound_info(dec_el, &info);
 
     esp_gmf_pipeline_set_event(pipe, _pipeline_event, user_data);
+    audio_mgr_pipeline_bind_task(pipe, NULL);
     return pipe;
 }
 

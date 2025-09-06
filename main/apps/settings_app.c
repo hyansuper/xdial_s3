@@ -25,7 +25,7 @@ static void open_screen(lv_obj_t* scr, screen_data_t* data) {
     data->label = lv_label_create(scr);
 
     lv_subject_add_observer_obj(&wifi_sub, ip_changed, scr, data);
-    lv_obj_add_event_cb(get_default_left_button(), back_to_home_app, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(get_default_left_button(), back_to_home_app, LV_EVENT_LONG_PRESSED, NULL);
 }
 
 static void close_screen(screen_data_t* data) {

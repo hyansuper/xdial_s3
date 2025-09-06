@@ -53,7 +53,7 @@ static void open_screen(lv_obj_t* scr, screen_data_t* data) {
     lv_obj_align(data->price, LV_ALIGN_CENTER, 0, 30);
 
     lv_subject_add_observer_obj(&crypto_sub, update_price, scr, data);
-    lv_obj_add_event_cb(get_default_left_button(), back_to_home_app, LV_EVENT_CLICKED, data);
+    lv_obj_add_event_cb(get_default_left_button(), back_to_home_app, LV_EVENT_LONG_PRESSED, data);
 }
 
 
