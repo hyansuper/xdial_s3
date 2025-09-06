@@ -59,8 +59,9 @@ esp_gmf_pipeline_handle_t audio_mgr_create_ready_playback_pipeline(const char* i
     return pipe;
 }
 
-esp_gmf_err_t audio_mgr_delete_pipeline(esp_gmf_pipeline_handle_t pipe) {
+esp_gmf_err_t audio_mgr_release_pipeline(esp_gmf_pipeline_handle_t pipe) {
 	ESP_GMF_NULL_CHECK(TAG, pipe, return ESP_GMF_ERR_INVALID_ARG);
+    esp_gmf_pipeline_stop(pipe);
 	if(pipe->thread) {
 		esp_gmf_err_t err = esp_gmf_task_deinit(pipe->thread);
 		if(err) return err;

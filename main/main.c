@@ -39,7 +39,7 @@ static void wifi_prov_cb(wifi_mgr_state_t* state) {
 void app_main(void) {
 	board_init(); // 初始化板子相关的硬件
 	lv_port();   // 初始化 lvgl 
-	lcd_set_brightness(10);
+	lcd_set_brightness(20);
 
 	lv_obj_t* label;
 	WITH_LV_LOCK({

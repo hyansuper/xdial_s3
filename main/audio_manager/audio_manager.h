@@ -22,5 +22,4 @@ esp_gmf_err_t audio_mgr_new_recoder_pipeline(const char* el_name[], int num_of_e
 
 esp_gmf_pipeline_handle_t audio_mgr_create_ready_playback_pipeline(const char* in_name, const char* el_name, int num_of_el_name, esp_gmf_task_cfg_t* task_cfg);
 
-
-esp_gmf_err_t audio_mgr_delete_pipeline(esp_gmf_pipeline_handle_t pipe);
+esp_gmf_err_t audio_mgr_release_pipeline(esp_gmf_pipeline_handle_t pipe);
