@@ -8,7 +8,8 @@
 #include "ext_mjson.h"
 
 typedef struct {
-    lv_obj_t* lbl_info;
+    lv_obj_t* lbl_emotion;
+    lv_obj_t* lbl_state;
 } screen_data_t;
 
 static void button_event_handler(lv_event_t * e) {
@@ -39,29 +40,55 @@ static void xz_chat_on_event(xz_chat_event_t event, xz_chat_event_data_t *event_
             xz_chat_start(chat);
         }
     } else if(event==XZ_EVENT_JSON_RECEIVED) {
+        // see https://github.com/78/xiaozhi-esp32/blob/main/docs/websocket.md
+
+        screen_data_t* screen_data = lv_app_get_screen_data();
         if(QESTREQL(event_data->type, "llm")) {
             char* emotion;
             int emotion_len;
             if((emjson_locate_string(event_data->json, event_data->len, "$.emotion", &emotion, &emotion_len))) {
-                WITH_LV_LOCK({ lv_label_set_text_fmt(((screen_data_t*)lv_app_get_screen_data())->lbl_info, "[%.*s]", emotion_len, emotion); });
+                WITH_LV_LOCK({ lv_label_set_text_fmt(screen_data->lbl_emotion, "[%.*s]", emotion_len, emotion); });
             }
+        } else if(QESTREQL(event_data->type, "tts")) {
+            char* tts_state = emjson_find_string(event_data->json, event_data->len, "$.state");
+            if(tts_state) {
+                if(QESTREQL(tts_state, "start")) {
+                    WITH_LV_LOCK({ lv_label_set_text_static(screen_data->lbl_state, "Speaking..."); });
+                } else if(QESTREQL(tts_state, "stop")) {
+                    WITH_LV_LOCK({ lv_label_set_text_static(screen_data->lbl_state, "Listening..."); });
+                }
+            }
+        } else if(QESTREQL(event_data->type, "goodbye")) {
+            WITH_LV_LOCK({ lv_label_set_text_static(screen_data->lbl_state, "Idle..."); });
+        } else if(QESTREQL(event_data->type, "hello")) {
+            WITH_LV_LOCK({ lv_label_set_text_static(screen_data->lbl_state, "Listening..."); });
         }
     }
 }
 
 static void open_screen(lv_obj_t* scr, screen_data_t* data) {
-    xz_chat_set_event_cb(chat, xz_chat_on_event);
-    
-    data->lbl_info = lv_label_create(scr);
-    lv_obj_center(data->lbl_info);
+    char* chat_state = "";
+    data->lbl_state = lv_label_create(scr);
+    lv_obj_align(data->lbl_state, LV_ALIGN_CENTER, 0, -50);
+    if(!xz_chat_is_in_session(chat))
+        chat_state="Idle...";
+    else if(xz_chat_is_listening(chat)) 
+        chat_state = "Listening...";
+    else if(xz_chat_is_speaking(chat))
+        chat_state = "Speaking...";
+    lv_label_set_text_static(data->lbl_state, chat_state);
+
+    data->lbl_emotion = lv_label_create(scr);
+    lv_obj_center(data->lbl_emotion);
     if(ai_chat_activation_msg) {
-        lv_label_set_text_static(data->lbl_info, ai_chat_activation_msg);
+        lv_label_set_text_static(data->lbl_emotion, ai_chat_activation_msg);
         xz_chat_set_user_data(chat, (void*)1000);   
         xz_chat_activation_check(chat, NULL);
     } else {
-        lv_label_set_text_static(data->lbl_info, "[happy]");
+        lv_label_set_text_static(data->lbl_emotion, "[neutral]");
     }
 
+    xz_chat_set_event_cb(chat, xz_chat_on_event);
     lv_obj_add_event_cb(get_default_left_button(), button_event_handler, LV_EVENT_LONG_PRESSED, data);
     lv_obj_add_event_cb(get_default_right_button(), button_event_handler, LV_EVENT_CLICKED, data);
 }

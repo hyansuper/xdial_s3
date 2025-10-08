@@ -82,22 +82,21 @@ static void playback_init_and_run() {
 	esp_gmf_pipeline_run(playback.pipe);
 }
 
-static esp_err_t play_ding() {
-	return esp_audio_simple_player_run_to_end(player, "file://spiffs/dingding.wav", NULL);
-}
 
 static void afe_event_cb(esp_gmf_obj_handle_t obj, esp_gmf_afe_evt_t *event, void *user_data) {
     switch (event->type) {
         case ESP_GMF_AFE_EVT_WAKEUP_START: {
             if(!xz_chat_is_in_session(chat)) {
-            	// WITH_LV_LOCK({
-	            //     if(&ai_chat_app == lv_app_get_current()) {
+            	WITH_LV_LOCK({
+	                if(&ai_chat_app == lv_app_get_current()) {
 
-	            //     } else {
-	            //     	lv_app_open(&ai_chat_app);
-	            //     }
-	            // });
-                play_ding();
+	                } else {
+	                	lv_app_open(&ai_chat_app);
+	                }
+	            });
+                // playing to end takes too long for in callback
+                // esp_audio_simple_player_run_to_end(player, "file://spiffs/dingding.wav", NULL);
+                esp_audio_simple_player_run(player, "file://spiffs/dingding.wav", NULL);
                 xz_chat_new_session(chat);
             }
             break;

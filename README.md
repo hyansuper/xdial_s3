@@ -2,6 +2,8 @@
 
 the x is pronounced xiao/小
 
+![](img.jpg)
+
 ## hardware
 
 https://github.com/hyansuper/xdial_s3_hardware

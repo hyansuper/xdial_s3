@@ -1,0 +1,1 @@
+参考 https://github.com/hyansuper/xiaozhi_chat/tree/main/example
