@@ -3,6 +3,7 @@
 
 #include <esp_codec_dev.h>
 #include <esp_codec_dev_defaults.h>
+#include "board_config.h"
 
 void lcd_init();
 int32_t lcd_get_pwm_duty();
@@ -26,7 +27,13 @@ int microphone_get_sample_rate();
 esp_codec_dev_handle_t speaker_get_codec_dev();
 esp_codec_dev_handle_t microphone_get_codec_dev();
 
+
 void input_init_gpio();
+#define left_button_pressed()   (gpio_get_level(GPIO_LEFT_BUTTON)==BUTTON_PRESS_LEVEL)
+#define right_button_pressed()  (gpio_get_level(GPIO_RIGHT_BUTTON)==BUTTON_PRESS_LEVEL)
+#define left_ir_detected()      (gpio_get_level(GPIO_LEFT_IR)==IR_DETECT_LEVEL)
+#define right_ir_detected()     (gpio_get_level(GPIO_RIGHT_IR)==IR_DETECT_LEVEL)
+
 
 static inline void board_init() {
     input_init_gpio();

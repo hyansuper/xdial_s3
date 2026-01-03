@@ -35,10 +35,13 @@
 // input
 #define GPIO_LEFT_IR       44
 #define GPIO_RIGHT_IR      21
+#define IR_PULLUP          0
+#define IR_DETECT_LEVEL    0
+
 #define GPIO_LEFT_BUTTON   43
 #define GPIO_RIGHT_BUTTON  17
 #define GPIO_BOOT          0
-
+#define BUTTON_PULLUP      1
 #define BUTTON_PRESS_LEVEL 0
 
 // audio

@@ -36,4 +36,4 @@ idf_component_register(
 
 spiffs_create_partition_image(spiffs ./spiffs_data FLASH_IN_PROJECT)
 
-add_compile_definitions(APP_VER="${PROJECT_VER}")
+add_compile_definitions(PROJ_VER="${PROJECT_VER}")

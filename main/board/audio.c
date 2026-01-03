@@ -83,15 +83,15 @@ static esp_err_t update_state(bool input_enabled_, bool output_enabled_) {
     spk_en = output_enabled_;
     return ret;
 }
-static esp_err_t mic_spk_enable(bool m, bool s) {
+static esp_err_t enable_mic_spk(bool m, bool s) {
 	if(spk_en==s && mic_en==m) return ESP_OK;
 	return update_state(m, s);
 }
 esp_err_t speaker_enable(bool en) {
-	return mic_spk_enable(mic_en, en);
+	return enable_mic_spk(mic_en, en);
 }
 esp_err_t microphone_enable(bool en) {
-	return mic_spk_enable(en, spk_en);
+	return enable_mic_spk(en, spk_en);
 }
 static void _del_i2s_channels() {
     if(tx_handle){

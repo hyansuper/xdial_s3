@@ -58,7 +58,7 @@ void app_main(void) {
 	WITH_LV_LOCK({
 		label = lv_label_create(lv_screen_active());
 		lv_obj_center(label);
-		lv_label_set_text_static(label, APP_NAME " - " APP_VER);
+		lv_label_set_text_static(label, PROJ_NAME " - " PROJ_VER);
 	});
 	vTaskDelay(pdMS_TO_TICKS(1000));
 
